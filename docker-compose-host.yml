@@ -11,8 +11,3 @@ services:
 #      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
 #      - ~/.ssh/:/root/.ssh
 #      - ${DEVSTACK_WORKSPACE}/src:/src:cached
-
-volumes:
-#  credentials_node_modules:
-#  discovery_node_modules:
-#  ecommerce_node_modules:

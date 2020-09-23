@@ -132,9 +132,7 @@ services:
 
   edraak_dev_router:
     image: nginx
-    container_name: edraak_dev_router
-    logging:
-      driver: none
+    container_name: edraak_b2b_dev_router
     volumes:
       - ./nginx:/etc/nginx/conf.d
     command: bash -c 'while true; do nginx -g "daemon off;"; sleep 2; done'
@@ -146,7 +144,7 @@ services:
     networks:
       default:
         aliases:
-          - programs.edraak.dev
+          - b2b.edraak.dev
           - edraak.dev
 
 
