@@ -43,15 +43,26 @@ dev.clone: ## Clone service repos to the parent directory
 dev.provision.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision.sh
 
+dev.b2b.provision.run: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-b2b.yml" ./provision.sh
+
 dev.provision.sync.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-sync.yml" ./provision.sh
 
+dev.b2b.provision.sync.run: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-sync.yml -f docker-compose-b2b.yml" ./provision.sh
+
 dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev environment with all services stopped
+
+dev.b2b.provision: | check-memory dev.clone dev.b2b.provision.run stop ## Provision dev environment with all services stopped
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
 
 dev.provision.xqueue.run:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" ./provision-xqueue.sh
+
+dev.b2b.provision.xqueue.run:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml -f docker-compose-b2b.yml" ./provision-xqueue.sh
 
 dev.reset: | down dev.repo.reset pull dev.up static update-db ## Attempts to reset the local devstack to a the master working state
 
@@ -74,6 +85,9 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 dev.up: | check-memory ## Bring up all services with host volumes
 	docker-compose -f docker-compose.yml -f docker-compose-host.yml up -d
 
+dev.b2b.up: | check-memory ## Bring up all services with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host.yml -f docker-compose-b2b.yml up -d
+
 dev.nfs.setup:  ## set's up an nfs server on the /Users folder, allowing nfs mounting on docker
 	./setup_native_nfs_docker_osx.sh
 
@@ -82,13 +96,26 @@ dev.nfs.up: | check-memory ## Bring up all services with host volumes
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
+dev.b2b.nfs.up: | check-memory ## Bring up all services with host volumes
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-b2b.yml up -d
+	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	#./programs/provision.sh cache >/dev/null
+
 dev.nfs.up.all: ## Bring up all services with host volumes, including watchers
 	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-watchers-nfs.yml up -d
 
+dev.b2b.nfs.up.all: ## Bring up all services with host volumes, including watchers
+	docker-compose -f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-watchers-nfs.yml -f docker-compose-b2b.yml up -d
+
 dev.nfs.provision: | check-memory dev.clone dev.provision.nfs.run stop ## Provision dev environment with all services stopped
+
+dev.b2b.nfs.provision: | check-memory dev.clone dev.b2b.provision.nfs.run stop ## Provision dev environment with all services stopped
 
 dev.provision.nfs.run: ## Provision all services with local mounted directories
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml" ./provision.sh
+
+dev.b2b.provision.nfs.run: ## Provision all services with local mounted directories
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host-nfs.yml -f docker-compose-b2b.yml" ./provision.sh
 
 dev.up.watchers: | check-memory ## Bring up asset watcher containers
 	docker-compose -f docker-compose-watchers.yml up -d
@@ -96,7 +123,12 @@ dev.up.watchers: | check-memory ## Bring up asset watcher containers
 dev.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
 	docker-compose -f docker-compose.yml -f  docker-compose-xqueue.yml -f docker-compose-host.yml up -d
 
+dev.b2b.up.xqueue: | check-memory ## Bring up xqueue, assumes you already have lms running
+	docker-compose -f docker-compose.yml -f  docker-compose-xqueue.yml -f docker-compose-host.yml -f docker-compose-b2b.yml up -d
+
 dev.up.all: | dev.up dev.up.watchers ## Bring up all services with host volumes, including watchers
+
+dev.b2b.up.all: | dev.b2b.up dev.up.watchers ## Bring up all services with host volumes, including watchers
 
 dev.sync.daemon.start: ## Start the docker-sycn daemon
 	docker-sync start
@@ -108,6 +140,11 @@ dev.sync.requirements: ## Install requirements
 
 dev.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
 	docker-compose -f docker-compose.yml -f docker-compose-sync.yml up -d
+	@# Comment out this next line if you want to save some time and don't care about catalog programs
+	#./programs/provision.sh cache >/dev/null
+
+dev.b2b.sync.up: dev.sync.daemon.start ## Bring up all services with docker-sync enabled
+	docker-compose -f docker-compose.yml -f docker-compose-sync.yml -f docker-compose-b2b.yml up -d
 	@# Comment out this next line if you want to save some time and don't care about catalog programs
 	#./programs/provision.sh cache >/dev/null
 
@@ -293,6 +330,9 @@ analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
 
 dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline
+
+dev.b2b.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
+	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml -f docker-compose-b2b.yml up -d analyticspipeline
 
 pull.analytics_pipeline: ## Update analytics pipeline docker images
 	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull --parallel

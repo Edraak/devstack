@@ -1,0 +1,6 @@
+version: "2.1"
+
+services:
+  edraak_programs:
+    environment:
+      PROGS_CFG: '/app/docker-b2b.json'
