@@ -1,3 +1,6 @@
+AUTH_PROVIDER_IMAGE_VERSION=0.1
+export AUTH_PROVIDER_IMAGE_VERSION
+
 edraak.provision:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-edraak.sh
 
@@ -117,3 +120,7 @@ edraak.restart:  ## Restart all of the lms, studio, marketing and progs
 	make lms-restart
 	make studio-restart
 	make state_manager-restart
+
+edraak.auth.shell:  ## Bash into auth_provider
+	docker-compose exec auth_provider bash
+
