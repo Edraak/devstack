@@ -7,7 +7,8 @@
 .DEFAULT_GOAL := help
 .PHONY: requirements
 
-DEVSTACK_WORKSPACE ?= $(shell pwd)/..
+THIS_DIRECTORY=$(shell pwd)
+DEVSTACK_WORKSPACE=$(shell dirname ${THIS_DIRECTORY})
 
 OS := $(shell uname)
 
