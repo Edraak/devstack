@@ -77,6 +77,9 @@ services:
           - analytics.edraak.dev
           - auth.edraak.dev
 
+  redis:
+        image: "redis:alpine"
+
 volumes:
   elasticsearch_data:
   mongo_data:

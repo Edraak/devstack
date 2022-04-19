@@ -31,6 +31,14 @@ services:
       - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
       - ~/.ssh/:/root/.ssh
 
+  celery:
+    image: eu.gcr.io/openedx-231314/edraak/progs:latest
+    container_name: edraak.devstack.programs.celery
+    command: celery -A edraakprograms worker -l INFO
+    restart: always
+    depends_on:
+      - redis
+
   router:
     depends_on:
       - progs
