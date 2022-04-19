@@ -33,11 +33,18 @@ services:
 
   celery:
     image: eu.gcr.io/openedx-231314/edraak/progs:latest
+    environment:
+      PROGS_CFG: /app/docker.json
     container_name: edraak.devstack.programs.celery
-    command: celery -A edraakprograms worker -l INFO
+    command: bash -c 'while true; do celery -A edraakprograms worker -l INFO; sleep 2; done'
     restart: always
+    working_dir: /app
     depends_on:
       - redis
+    volumes:
+      - progs_media:/edx/var/progs/media
+      - ${DEVSTACK_WORKSPACE}/edraak-programs:/app:cached
+      - ~/.ssh/:/root/.ssh
 
   router:
     depends_on:
