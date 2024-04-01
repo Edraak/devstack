@@ -7,7 +7,7 @@ apps=( lms studio )
 echo "** Edx **"
 echo -e "${GREEN}Creating databases and users...${NC}"
 docker exec -i edx.devstack.mysql mysql -uroot mysql < provision.sql
-docker exec -i edx.devstack.mongo mongo < mongo-provision.js
+docker exec -i edx.devstack.mongo mongosh < mongo-provision.js
 
 # Load database dumps for the largest databases to save time
 ./load-db.sh edxapp

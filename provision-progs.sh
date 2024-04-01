@@ -4,7 +4,7 @@ echo "** Bring progs up **"
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` up -d progs
 
 echo "** Creating databases **"
-echo "CREATE DATABASE IF NOT EXISTS edraakprograms;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
+echo "CREATE DATABASE IF NOT EXISTS edraakprograms;" | docker exec -i edx.devstack.mysql8 mysql -uroot mysql
 
 
 echo "** Progs: Setting correct python version **"
