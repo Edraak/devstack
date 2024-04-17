@@ -23,11 +23,18 @@ if [ "$MOUNT_TYPE" = "-nfs" ]; then
 fi
 
 # Bring the databases online.
-docker-compose up -d mysql mongo
+docker-compose up -d mysql mongo mysql8
 
 # Ensure the MySQL server is online and usable
 echo "Waiting for MySQL"
 until docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
+echo "Waiting for MySQL8"
+until docker exec -i edx.devstack.mysql8 mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
 do
   printf "."
   sleep 1
@@ -38,7 +45,7 @@ done
 sleep 10
 
 printf "Creating mongo usres"
-docker exec -i edx.devstack.mongo mongo < mongo-provision.js
+docker exec -i edx.devstack.mongo mongosh < mongo-provision.js
 
 echo -e "MySQL ready"
 

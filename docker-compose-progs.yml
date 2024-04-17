@@ -23,7 +23,7 @@ services:
     ports:
       - "18800:8800"
     depends_on:
-      - mysql
+      - mysql8
       - mongo
       - memcached
     volumes:
