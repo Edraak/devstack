@@ -12,10 +12,10 @@ docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'update-alterna
 
 echo "** Progs: Copy cacheed files to code dir **"
 #docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'cp -Rn /cache/* /app/.'
-docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'pip install -r requirements.txt'
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'pip3 install -r requirements.txt'
 
 echo "** Progs: Migrating databases **"
-docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'python manage.py migrate --settings=edraakprograms.dev'
+docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'python3.8 manage.py migrate --settings=edraakprograms.dev'
 
 echo "** Progs: Compiling assets **"
 docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'npm rebuild node-sass'
