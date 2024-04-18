@@ -19,12 +19,12 @@ services:
        - "9200:9200"
        - "9300:9300"
     volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/datamake
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
   memcached:
     container_name: edx.devstack.memcached
-    image: memcached:1.4.24
+    image: memcached:1.4
     ports:
        - "11211:11211"
 
