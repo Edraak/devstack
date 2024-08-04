@@ -49,6 +49,11 @@ docker exec -i edx.devstack.mongo mongosh < mongo-provision.js
 
 echo -e "MySQL ready"
 
+if $ENABLE_EDX; then
+  ./provision-lms.sh
+  # Nothing special needed for studio
+  docker-compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
+fi
 
 
 if $ENABLE_PROGS; then
@@ -76,8 +81,3 @@ fi
 docker image prune -f
 
 echo -e "${GREEN}Provisioning complete!${NC}"
-if $ENABLE_EDX; then
-  ./provision-lms.sh
-  # Nothing special needed for studio
-  docker-compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
-
