@@ -13,7 +13,7 @@ version: "2.1"
 services:
 
   b2b:
-    image: eu.gcr.io/openedx-231314/edraak/progs
+    image: eu.gcr.io/openedx-231314/edraak/progs:latest
     environment:
       PROGS_CFG: /app/docker-b2b.json
       NODE_ENV: development
