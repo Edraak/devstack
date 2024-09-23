@@ -31,6 +31,9 @@ progs.build:
 progs.pushimage:
 	docker push eu.gcr.io/openedx-231314/edraak/progs
 
+progs.makemigrations:
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py makemigrations --settings=edraakprograms.dev
+
 progs.migrate:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py migrate --settings=edraakprograms.dev
 
