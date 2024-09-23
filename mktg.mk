@@ -24,10 +24,10 @@ mktg.help:
 
 
 mktg.build:
-	docker build -t eu.gcr.io/openedx-231314/edraak/marketing -f ../marketing-site/Dockerfile ../marketing-site
+	docker build -t eu.gcr.io/openedx-231314/edraak/marketing:latest -f ../marketing-site/Dockerfile ../marketing-site
 
 mktg.pushimage:
-	docker push eu.gcr.io/openedx-231314/edraak/marketing
+	docker push eu.gcr.io/openedx-231314/edraak/marketing:latest
 
 mktg.migrate: ## Kill the Marketing Django development server. The watcher process will restart it.
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'python manage.py migrate --settings=marketingsite.envs.dev'
@@ -43,6 +43,9 @@ mktg.install_pip:
 
 mktg.install_npm:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg npm install
+
+mktg.install_yarn:
+	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg yarn
 
 mktg.copy_cache:
 	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg cp -Rnv /cache/node_modules /cache/.compiled /app
