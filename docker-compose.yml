@@ -8,7 +8,7 @@
 # - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
 #   that might be running for the same service.
 
-version: "2.1"
+version: '3.3'
 
 services:
 
@@ -38,29 +38,29 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  mysql:
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: edx.devstack.mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    image: mysql:5.7
-    ports:
-       - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
+#  mysql:
+#    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+#    container_name: edx.devstack.mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ""
+#      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+#    image: mysql:5.7
+#    ports:
+#       - "3306:3306"
+#    volumes:
+#      - mysql_data:/var/lib/mysql
 
-  mysql8:
+  mysql:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --default-authentication-plugin=mysql_native_password
-    container_name: edx.devstack.mysql8
+    container_name: edx.devstack.mysql
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     image: mysql:8.0.31
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
-      - mysql8_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
   router:
     image: nginx
@@ -93,5 +93,4 @@ volumes:
   elasticsearch_data:
   mongo_data:
   mysql_data:
-  mysql8_data:
   devpi_data:

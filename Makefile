@@ -7,7 +7,7 @@
 .DEFAULT_GOAL := help
 .PHONY: requirements
 
-DEVSTACK_WORKSPACE ?= $(shell pwd)/..
+export DEVSTACK_WORKSPACE=$(abspath ../)
 include .env
 
 OS := $(shell uname)
@@ -52,7 +52,7 @@ endif
 
 export DOCKER_COMPOSE_FILES
 
-export DEVSTACK_WORKSPACE
+#export DEVSTACK_WORKSPACE
 export COMPOSE_PROJECT_NAME
 
 include *.mk
@@ -80,6 +80,7 @@ dev.checkout: ## Check out "masters" otherwise
 	./repo.sh checkout
 
 dev.clone: ## Clone service repos to the parent directory
+	@echo "DEVSTACK_WORKSPACE ${DEVSTACK_WORKSPACE}"
 	./repo.sh clone
 
 dev.provision.run: ## Provision all services with local mounted directories
@@ -107,7 +108,7 @@ dev.editable-envs:  ## Copy env files outside the docker containers so it's edit
 	@make studio-restart
 
 dev.up: | check-memory ## Bring up all services with host volumes
-	docker-compose ${DOCKER_COMPOSE_FILES} up -d
+	docker compose ${DOCKER_COMPOSE_FILES} up -d
 
 edraak.dev.up.hacks:
 	@# Start: Edraak hacks
@@ -126,25 +127,25 @@ provision: | dev.provision
 
 stop: ## Stop all services
 	(test -d .docker-sync && docker-sync stop) || true ## Ignore failure here
-	docker-compose ${DOCKER_COMPOSE_FILES} stop
+	docker compose ${DOCKER_COMPOSE_FILES} stop
 
 down: ## Remove all service containers and networks
-	docker-compose ${DOCKER_COMPOSE_FILES} down
+	docker compose ${DOCKER_COMPOSE_FILES} down
 
 destroy: ## Remove all devstack-related containers, networks, and volumes
 	./destroy.sh
 
 logs: ## View logs from containers running in detached mode
-	docker-compose ${DOCKER_COMPOSE_FILES} logs -f --tail 10
+	docker compose ${DOCKER_COMPOSE_FILES} logs -f --tail 10
 
 %-logs: ## View the logs of the specified service container
-	docker-compose ${DOCKER_COMPOSE_FILES} logs -f --tail=500 $*
+	docker compose ${DOCKER_COMPOSE_FILES} logs -f --tail=500 $*
 
 pull:
-	docker-compose ${DOCKER_COMPOSE_FILES} pull --parallel
+	docker compose ${DOCKER_COMPOSE_FILES} pull
 
 validate: ## Validate the devstack configuration
-	docker-compose ${DOCKER_COMPOSE_FILES} config
+	docker compose ${DOCKER_COMPOSE_FILES} config
 
 backup: ## Write all data volumes to the host.
 	docker run --rm --volumes-from edx.devstack.mysql -v $$(pwd)/.dev/backups:/backup debian:jessie tar zcvf /backup/mysql.tar.gz /var/lib/mysql
@@ -161,7 +162,7 @@ restore:  ## Restore all data volumes from the host. WARNING: THIS WILL OVERWRIT
 
 
 # TODO: Print out help for this target. Even better if we can iterate over the
-# services in docker-compose.yml, and print the actual service names.
+# services in docker compose.yml, and print the actual service names.
 %-shell: ## Run a shell on the specified service container
 	docker exec -it edx.devstack.$* /bin/bash
 
@@ -249,39 +250,39 @@ vnc-passwords: ## Get the VNC passwords for the Chrome and Firefox Selenium cont
 	@docker logs edx.devstack.firefox 2>&1 | grep "VNC password" | tail -1
 
 devpi-password: ## Get the root devpi password for the devpi container
-	docker-compose exec devpi bash -c "cat /data/server/.serverpassword"
+	docker compose exec devpi bash -c "cat /data/server/.serverpassword"
 
 mysql-shell: ## Run a shell on the mysql container
-	docker-compose exec mysql bash
+	docker compose exec mysql bash
 
 mysql-shell-edxapp: ## Run a mysql shell on the edxapp database
-	docker-compose exec mysql bash -c "mysql edxapp"
+	docker compose exec mysql bash -c "mysql edxapp"
 
 mongo-shell: ## Run a shell on the mongo container
-	docker-compose exec mongo bash
+	docker compose exec mongo bash
 
 ### analytics pipeline commands
 
 dev.provision.analytics_pipeline: | check-memory dev.provision.analytics_pipeline.run stop.analytics_pipeline stop ## Provision analyticstack dev environment with all services stopped
 
 dev.provision.analytics_pipeline.run:
-	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml -f docker-compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
+	DOCKER_COMPOSE_FILES="-f docker compose.yml -f docker compose-host.yml -f docker compose-analytics-pipeline.yml" ./provision-analytics-pipeline.sh
 
 analytics-pipeline-shell: ## Run a shell on the analytics pipeline container
 	docker exec -it edx.devstack.analytics_pipeline env TERM=$(TERM) /edx/app/analytics_pipeline/devstack.sh open
 
 dev.up.analytics_pipeline: | check-memory ## Bring up analytics pipeline services
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml -f docker-compose-host.yml up -d analyticspipeline
+	docker compose -f docker compose.yml -f docker compose-analytics-pipeline.yml -f docker compose-host.yml up -d analyticspipeline
 
 pull.analytics_pipeline: ## Update analytics pipeline docker images
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml pull --parallel
+	docker compose -f docker compose.yml -f docker compose-analytics-pipeline.yml pull --parallel
 
 analytics-pipeline-devstack-test: ## Run analytics pipeline tests in travis build
 	docker exec -u hadoop -i edx.devstack.analytics_pipeline bash -c 'sudo chown -R hadoop:hadoop /edx/app/analytics_pipeline && source /edx/app/hadoop/.bashrc && make develop-local && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_internal_reporting_database && make docker-test-acceptance-local ONLY_TESTS=edx.analytics.tasks.tests.acceptance.test_user_activity'
 
 stop.analytics_pipeline: ## Stop analytics pipeline services
-	docker-compose -f docker-compose.yml -f docker-compose-analytics-pipeline.yml stop
-	docker-compose up -d mysql      ## restart mysql as other containers need it
+	docker compose -f docker compose.yml -f docker compose-analytics-pipeline.yml stop
+	docker compose up -d mysql      ## restart mysql as other containers need it
 
 hadoop-application-logs-%: ## View hadoop logs by application Id
 	docker exec -it edx.devstack.analytics_pipeline.nodemanager yarn logs -applicationId $*
