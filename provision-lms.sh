@@ -2,7 +2,7 @@ set -e
 set -o pipefail
 set -x
 
-apps=( lms studio )
+apps=( lms )
 
 echo "** Edx **"
 echo -e "${GREEN}Creating databases and users...${NC}"

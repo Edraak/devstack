@@ -52,7 +52,7 @@ echo -e "MySQL ready"
 if $ENABLE_EDX; then
   ./provision-lms.sh
   # Nothing special needed for studio
-  docker compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
+  #docker compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
 fi
 
 

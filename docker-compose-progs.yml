@@ -13,7 +13,7 @@ version: '3.3'
 services:
 
   progs:
-    image: eu.gcr.io/openedx-231314/edraak/progs
+    image: eu.gcr.io/openedx-231314/edraak/progs:20250519-123649-m
     environment:
       PROGS_CFG: /app/docker.json
       NODE_ENV: development

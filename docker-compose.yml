@@ -12,19 +12,19 @@ version: '3.3'
 
 services:
 
-  elasticsearch:
-    container_name: edx.devstack.elasticsearch
-    image: edxops/elasticsearch:devstack
-    ports:
-       - "9200:9200"
-       - "9300:9300"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/datamake
-      - elasticsearch_data:/usr/share/elasticsearch/logs
+#  elasticsearch:
+#    container_name: edx.devstack.elasticsearch
+#    image: edxops/elasticsearch:devstack
+#    ports:
+#       - "9200:9200"
+#       - "9300:9300"
+#    volumes:
+#      - elasticsearch_data:/usr/share/elasticsearch/datamake
+#      - elasticsearch_data:/usr/share/elasticsearch/logs
 
   memcached:
     container_name: edx.devstack.memcached
-    image: memcached:1.4
+    image: memcached:1.6
     ports:
        - "11211:11211"
 
@@ -90,7 +90,7 @@ services:
           - auth.edraak.dev
 
 volumes:
-  elasticsearch_data:
+  #elasticsearch_data:
   mongo_data:
   mysql_data:
-  devpi_data:
+  #devpi_data:
