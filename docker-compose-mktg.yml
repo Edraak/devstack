@@ -8,12 +8,12 @@
 # - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
 #   that might be running for the same service.
 
-version: "2.1"
+version: '3.3'
 
 services:
 
   mktg:
-    image: eu.gcr.io/openedx-231314/edraak/marketing
+    image: eu.gcr.io/openedx-231314/edraak/marketing:20250618-153829-m
     environment:
       NODE_ENV: development
     command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8500 --settings=marketingsite.envs.dev; sleep 2; done'
@@ -22,7 +22,7 @@ services:
     ports:
       - "18500:8500"
     depends_on:
-      - mysql8
+      - mysql
       - memcached
     volumes:
       - ${DEVSTACK_WORKSPACE}/marketing-site:/app

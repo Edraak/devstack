@@ -8,12 +8,12 @@
 # - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
 #   that might be running for the same service.
 
-version: "2.1"
+version: '3.3'
 
 services:
 
   progs:
-    image: eu.gcr.io/openedx-231314/edraak/progs
+    image: eu.gcr.io/openedx-231314/edraak/progs:20250618-155233-m
     environment:
       PROGS_CFG: /app/docker.json
       NODE_ENV: development
@@ -23,7 +23,7 @@ services:
     ports:
       - "18800:8800"
     depends_on:
-      - mysql8
+      - mysql
       - mongo
       - memcached
     volumes:
