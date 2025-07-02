@@ -12,6 +12,8 @@ version: '3.3'
 
 services:
 
+# This been commented out cuz it's no longer needed in the local development
+#
 #  elasticsearch:
 #    container_name: edx.devstack.elasticsearch
 #    image: edxops/elasticsearch:devstack
@@ -37,18 +39,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-
-#  mysql:
-#    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-#    container_name: edx.devstack.mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: ""
-#      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-#    image: mysql:5.7
-#    ports:
-#       - "3306:3306"
-#    volumes:
-#      - mysql_data:/var/lib/mysql
 
   mysql:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --default-authentication-plugin=mysql_native_password
@@ -90,7 +80,9 @@ services:
           - auth.edraak.dev
 
 volumes:
-  #elasticsearch_data:
   mongo_data:
   mysql_data:
-  #devpi_data:
+# This been commented out cuz it's no longer needed in the local development
+#
+#  elasticsearch_data:
+#  devpi_data:

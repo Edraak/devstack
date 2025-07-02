@@ -44,6 +44,8 @@ services:
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
       - ~/.ssh/:/root/.ssh
 
+# This been commented out cuz it's no longer needed in the local development
+#
 #  studio:
 #    command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 200000; done'
 #    container_name: edx.devstack.studio
@@ -75,6 +77,8 @@ services:
 #      - ${DEVSTACK_WORKSPACE}/src:/edx/src:cached
 #      - ~/.ssh/:/root/.ssh
 
+# This been commented out cuz it's no longer needed in the local development
+#
 #  forum:
 #    command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 200000; done'
 #    container_name: edx.devstack.forum
@@ -89,6 +93,8 @@ services:
 #      - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
 #      - ~/.ssh/:/root/.ssh
 
+# This been commented out cuz it's no longer needed in the local development
+#
 #  devpi:
 #    container_name: edx.devstack.devpi
 #    image: edxops/devpi:${OPENEDX_RELEASE:-latest}
@@ -101,14 +107,20 @@ services:
   router:
     depends_on:
       - lms
-      #- studio
-#      - mktg
       - progs
+
+# This been commented out cuz it's no longer needed in the local development
+#
+#      - studio
+#      - mktg
     volumes:
       - ./nginx/edx.conf:/etc/nginx/conf.d/edx.conf
 
 
 volumes:
   edxapp_lms_assets:
-  #edxapp_studio_assets:
   edxapp_node_modules:
+
+  # This been commented out cuz it's no longer needed in the local development
+  #
+  #edxapp_studio_assets:
