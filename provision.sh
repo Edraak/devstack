@@ -23,18 +23,11 @@ if [ "$MOUNT_TYPE" = "-nfs" ]; then
 fi
 
 # Bring the databases online.
-docker-compose up -d mysql mongo mysql8
+docker compose up -d mysql mongo
 
 # Ensure the MySQL server is online and usable
 echo "Waiting for MySQL"
 until docker exec -i edx.devstack.mysql mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
-do
-  printf "."
-  sleep 1
-done
-
-echo "Waiting for MySQL8"
-until docker exec -i edx.devstack.mysql8 mysql -uroot -se "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'root')" &> /dev/null
 do
   printf "."
   sleep 1
@@ -52,7 +45,7 @@ echo -e "MySQL ready"
 if $ENABLE_EDX; then
   ./provision-lms.sh
   # Nothing special needed for studio
-  docker-compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
+  #docker compose `echo ${DOCKER_COMPOSE_FILES}` up -d studio
 fi
 
 

@@ -8,7 +8,7 @@ echo "Parsing options"
 container_error=false
 for arg in "$@"; do
     if [ $arg == "--studio" ]; then
-        if [ ! "$(docker-compose exec lms bash -c 'echo "Course will be created for studio"; exit $?')" ]; then
+        if [ ! "$(docker compose exec lms bash -c 'echo "Course will be created for studio"; exit $?')" ]; then
             echo "Issue with studio container"
             container_error=true
         else

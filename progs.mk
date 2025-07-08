@@ -32,37 +32,37 @@ progs.pushimage:
 	docker push eu.gcr.io/openedx-231314/edraak/progs
 
 progs.migrate:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py migrate --settings=edraakprograms.dev
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py migrate --settings=edraakprograms.dev
 
 progs.langs_push:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py langs_push --settings=edraakprograms.dev
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py langs_push --settings=edraakprograms.dev
 
 progs.langs_pull:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py langs_pull --settings=edraakprograms.dev
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py langs_pull --settings=edraakprograms.dev
 
 progs.install_pip:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs pip install -r requirements.txt
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs pip install -r requirements.txt
 
 progs.install_npm:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm install
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm install
 
 progs.copy_cache:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs cp -Rnv /cache/node_modules /cache/.compiled /app
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs cp -Rnv /cache/node_modules /cache/.compiled /app
 
 progs.dev:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev
 
 progs.watch:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev:watch
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev:watch
 
 progs.install_all: | progs.install_pip progs.install_npm progs.dev progs.migrate
 
 progs.watch_js:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev:watch
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev:watch
 
 progs.watch_css:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run watch-scss
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run watch-scss
 
 progs.fix-npm:
-	docker-compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'chown -R root ~/.npm'
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'chown -R root ~/.npm'
 
