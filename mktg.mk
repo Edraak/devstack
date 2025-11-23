@@ -54,7 +54,7 @@ mktg.dev:
 	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg npm run dev
 
 mktg.watch:
-	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg npx gulp watch
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg npx gulp watcher
 
 mktg.install_all: | mktg.install_pip mktg.install_npm mktg.dev mktg.migrate
 

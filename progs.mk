@@ -34,6 +34,9 @@ progs.pushimage:
 progs.migrate:
 	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py migrate --settings=edraakprograms.dev
 
+progs.makemigrations:
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py makemigrations --settings=edraakprograms.dev
+
 progs.langs_push:
 	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs python manage.py langs_push --settings=edraakprograms.dev
 
