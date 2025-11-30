@@ -115,7 +115,26 @@ sure you have the needed permission.
         gcloud auth login
         gcloud auth configure-docker
 
-5. Run the provision command, if you haven't already, to configure the various
+5. Clean up any Docker artifacts (containers, images, and volumes) to ensure a
+   fresh start.
+
+   .. code:: sh
+
+       docker system prune -a
+
+   .. note::
+
+      The prune command removes all stopped containers, unused networks,
+      dangling images, and build cache. Review Docker's documentation if you
+      need to keep specific resources.
+
+6. Pull the required images.
+
+   .. code:: sh
+
+       make pull
+
+7. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -132,7 +151,19 @@ sure you have the needed permission.
 
        make dev.provision
 
-6. Start the services. This command will mount the repositories under the
+   .. note::
+
+      The first run of ``make dev.provision`` is expected to fail. After the
+      initial failure, update ``.env`` to disable EDX, then rerun the provision
+      command. When the migration finishes, stop any running containers before
+      starting the development stack again.
+
+   .. code:: sh
+
+       make dev.provision
+       make stop
+
+8. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
@@ -145,6 +176,31 @@ sure you have the needed permission.
 
 
 # .env file content
+
+When copying the ``.env`` file for a fresh setup, it should resemble the
+configuration below. Adjust service flags as needed—particularly
+``ENABLE_EDX`` if you need to disable the service after the first migration
+attempt.
+
+.. code:: sh
+
+   ## env ##
+   PROGS_CFG=/app/docker.json
+
+   # Change mount type to "-nfs" to enable nfs, otherwise leave it empty
+   MOUNT_TYPE=
+
+   # Enable disable services
+   ENABLE_PROGS=true
+   ENABLE_B2B=false
+   ENABLE_MKTG=true
+   ENABLE_EDX=true
+
+   ENABLE_STATE_MANAGER=false
+   ENABLE_JUDGE=false
+   ENABLE_ANALYTICS=false
+   ENABLE_AUTH=true
+   ENABLE_NOTIFIER=false
 
 MOUNT_TYPE:
     set to -nfs to enable NFS support or leave empty to use default docker engine
