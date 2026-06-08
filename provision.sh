@@ -66,6 +66,11 @@ if $ENABLE_MKTG; then
   ./provision-mktg.sh
 fi
 
+if $ENABLE_EDRAAK_AUTH; then
+  echo "** Edraak Auth **"
+  ./provision-auth.sh
+fi
+
 docker image prune -f
 
 echo -e "${GREEN}Provisioning complete!${NC}"
