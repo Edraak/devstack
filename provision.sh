@@ -68,7 +68,7 @@ fi
 
 if $ENABLE_EDRAAK_AUTH; then
   echo "** Edraak Auth **"
-  ./provision-auth.sh
+  ./provision-edraak-auth.sh
 fi
 
 docker image prune -f
