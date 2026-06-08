@@ -10,7 +10,7 @@ echo "CREATE DATABASE IF NOT EXISTS edraakprograms;" | docker exec -i edx.devsta
 echo "** Progs: Setting correct python version **"
 docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1'
 
-echo "** Progs: Copy cacheed files to code dir **"
+echo "** Progs: Copy cached files to code dir **"
 #docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'cp -Rn /cache/* /app/.'
 docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'pip install -r requirements.txt'
 

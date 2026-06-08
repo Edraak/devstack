@@ -28,6 +28,7 @@ repos=(
     "git@github.com:Edraak/shared-devstack-configs.git"
     "git@github.com:Edraak/state-manager.git"
     "git@github.com:Edraak/auth_provider.git"
+    "git@github.com:Edraak/edraak-auth.git"
 )
 
 repo_alternative_directory=(
