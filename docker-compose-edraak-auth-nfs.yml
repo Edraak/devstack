@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  edraak-auth:
+    volumes:
+      - edraak-auth-nfs:/app
+
+volumes:
+  edraak-auth-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: :${DEVSTACK_WORKSPACE}/edraak-auth
