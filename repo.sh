@@ -26,8 +26,7 @@ repos=(
     "git@github.com:Edraak/edraak-2019-theme.git"
 	  "git@github.com:Edraak/programs-theme-white.git"
     "git@github.com:Edraak/shared-devstack-configs.git"
-    "git@github.com:Edraak/state-manager.git"
-    "git@github.com:Edraak/auth_provider.git"
+"git@github.com:Edraak/auth_provider.git"
     "git@github.com:Edraak/edraak-auth.git"
 )
 

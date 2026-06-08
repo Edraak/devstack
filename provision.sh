@@ -66,11 +66,6 @@ if $ENABLE_MKTG; then
   ./provision-mktg.sh
 fi
 
-if $ENABLE_STATE_MANAGER; then
-  echo "** State Manager **"
-  ./provision-state-manager-api.sh
-fi
-
 docker image prune -f
 
 echo -e "${GREEN}Provisioning complete!${NC}"

@@ -35,11 +35,6 @@ ifeq (${ENABLE_EDX}, true)
 	DOCKER_COMPOSE_FILES+=-f docker-compose-edx${MOUNT_TYPE}.yml
 endif
 
-ifeq (${ENABLE_STATE_MANAGER}, true)
-	DOCKER_COMPOSE_FILES+=-f docker-compose-state-manager.yml
-	DOCKER_COMPOSE_FILES+=-f docker-compose-state-manager${MOUNT_TYPE}.yml
-endif
-
 ifeq (${ENABLE_JUDGE}, true)
 	DOCKER_COMPOSE_FILES+=-f docker-compose-judge.yml
 	DOCKER_COMPOSE_FILES+=-f docker-compose-judge${MOUNT_TYPE}.yml
