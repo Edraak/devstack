@@ -6,7 +6,7 @@ docker compose `echo ${DOCKER_COMPOSE_FILES}` up -d mktg
 echo "** Creating databases **"
 echo "CREATE DATABASE IF NOT EXISTS marketingsite;" | docker exec -i edx.devstack.mysql mysql -uroot mysql
 
-echo "** Marketing: Copy cacheed files to code dir **"
+echo "** Marketing: Copy cached files to code dir **"
 docker compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'cp -Rn /cache/* /app/.'
 echo "** Marketing: Install requirements **"
 docker compose `echo ${DOCKER_COMPOSE_FILES}` exec mktg bash -c 'pip install -r requirements.txt'

@@ -1,0 +1,44 @@
+# This file contains all of the services for an edraak installation. See https://docs.docker.com/compose/compose-file/
+# for the appropriate syntax and definitions.
+#
+# Housekeeping Rules:
+# - Group third-party and edraak services separately
+# - Alphabetize services in the groups
+# - Alphabetize individual configuration options for each service
+# - Every service's container name should be prefixed with "edraak.devstack." to avoid conflicts with other containers
+#   that might be running for the same service.
+
+version: '3.3'
+
+services:
+  edraak-auth:
+    build:
+      context: ${DEVSTACK_WORKSPACE}/edraak-auth
+      dockerfile: Dockerfile
+    container_name: edraak.devstack.edraak_auth
+    command: bash -c 'while true; do python manage.py runserver 0.0.0.0:8000; sleep 2; done'
+    depends_on:
+      - mysql
+      - memcached
+    environment:
+      DJANGO_SETTINGS_MODULE: authprovider.settings.base
+      DB_HOST: mysql
+      DB_NAME: edraak_auth
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_PORT: "3306"
+      MEMCACHED_LOCATION: memcached:11211
+    ports:
+      - "18901:8000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edraak-auth:/app:cached
+
+  router:
+    depends_on:
+      - edraak-auth
+    volumes:
+      - ./nginx/edraak-auth.conf:/etc/nginx/conf.d/edraak-auth.conf
+
+volumes: {}

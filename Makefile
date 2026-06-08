@@ -50,6 +50,11 @@ ifeq (${ENABLE_AUTH}, true)
 	DOCKER_COMPOSE_FILES+=-f docker-compose-auth-provider${MOUNT_TYPE}.yml
 endif
 
+ifeq (${ENABLE_EDRAAK_AUTH}, true)
+	DOCKER_COMPOSE_FILES+=-f docker-compose-edraak-auth.yml
+	DOCKER_COMPOSE_FILES+=-f docker-compose-edraak-auth${MOUNT_TYPE}.yml
+endif
+
 export DOCKER_COMPOSE_FILES
 
 #export DEVSTACK_WORKSPACE
