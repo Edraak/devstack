@@ -21,7 +21,7 @@ services:
       - mysql
       - memcached
     environment:
-      DJANGO_SETTINGS_MODULE: authprovider.settings.base
+      DJANGO_SETTINGS_MODULE: authprovider.settings.development
       DB_HOST: mysql
       DB_NAME: edraak_auth
       DB_USER: root

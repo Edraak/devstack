@@ -27,6 +27,9 @@ edraak-auth.makemigrations:
 edraak-auth.install_pip:
 	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec edraak-auth pip install -r requirements.txt
 
+edraak-auth.install_rec:
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec edraak-auth pip install django-countries==7.6.1
+
 edraak-auth.shell:
 	docker exec -it edraak.devstack.edraak_auth /bin/bash
 
