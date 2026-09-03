@@ -78,6 +78,7 @@ services:
           - notify.edraak.dev
           - analytics.edraak.dev
           - auth.edraak.dev
+          - authnew.edraak.dev
 
 volumes:
   mongo_data:
