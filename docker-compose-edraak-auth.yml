@@ -22,6 +22,10 @@ services:
       - memcached
     environment:
       DJANGO_SETTINGS_MODULE: authprovider.settings.development
+      # Must match SECRET_KEY in programs (docker.json) and marketing (dev.py):
+      # it keys the safe-session cookie signature and the session auth hash,
+      # both verified cross-service under the shared-session architecture.
+      DJANGO_SECRET_KEY: "85920908f28904ed733fe576320db18cabd7b6cd"
       DB_HOST: mysql
       DB_NAME: edraak_auth
       DB_USER: root
