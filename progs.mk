@@ -21,6 +21,9 @@ progs.help:
 	@echo "provision:            Run provision script, prepare the env"
 	@echo "restart:              Restart the container"
 	@echo "manage <Command>:     Run any manage.py command"
+	@echo "watch_all:            Watch both legacy JS and new TypeScript UI simultaneously"
+	@echo "watch_ui:             Watch and rebuild new TypeScript UI (static/ts/ui/)"
+	@echo "build_ui:             One-shot build of new TypeScript UI (static/ts/ui/)"
 	@echo "fix-npm:              Fix .npm folder ownership issue"
 	@echo "help:                 Print help and exit"
 	@echo ""
@@ -65,6 +68,16 @@ progs.watch_js:
 
 progs.watch_css:
 	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run watch-scss
+
+progs.watch_all:
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run dev:watch &
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run js:ui:watch
+
+progs.watch_ui:
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run js:ui:watch
+
+progs.build_ui:
+	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs npm run js:ui
 
 progs.fix-npm:
 	docker compose `echo ${DOCKER_COMPOSE_FILES}` exec progs bash -c 'chown -R root ~/.npm'
